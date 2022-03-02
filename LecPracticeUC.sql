@@ -48,3 +48,15 @@ select *from EPLOYEE_PAYROLL;
 ---------------------UC9-Extend Table to have bsicPay,deductions,taxablepay,...etc------------
 Exec sp_rename  'EPLOYEE_PAYROLL.Salary','BasicPay','COLUMN';
 ALTER TABLE EPLOYEE_PAYROLL ADD Deductions float,Taxable float,IncomeTax float,NetPay float;
+Update EPLOYEE_PAYROLL set Deductions=500 where Id IN (3,5);
+Update EPLOYEE_PAYROLL set Deductions=1000 where Id IN (1,2);
+Update EPLOYEE_PAYROLL set Deductions=1500 where Id =4;
+select *from EPLOYEE_PAYROLL;
+Update EPLOYEE_PAYROLL set Taxable=4999.99 where Id IN (1,3,5);
+Update EPLOYEE_PAYROLL set IncomeTax=1599.76 where Id IN (2,4,5);
+Update EPLOYEE_PAYROLL set NetPay=25000 where Id IN (1,2,3,4,5);
+-----------------UC-10-Creating Unneccesssary redundancy----------------
+----Already created two redundancy so added new one person
+INSERT INTO EPLOYEE_PAYROLL (Name,BasicPay,Start_Date,Gender,Phone,Address,Department,Deductions,Taxable,IncomeTax,NetPay)
+VALUES('Suresh',50000,'1998-03-14','M',9876543219,'Benglore','Infosys',500,3500,3000,50000);
+
