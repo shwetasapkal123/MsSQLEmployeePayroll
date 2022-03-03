@@ -59,4 +59,71 @@ Update EPLOYEE_PAYROLL set NetPay=25000 where Id IN (1,2,3,4,5);
 ----Already created two redundancy so added new one person
 INSERT INTO EPLOYEE_PAYROLL (Name,BasicPay,Start_Date,Gender,Phone,Address,Department,Deductions,Taxable,IncomeTax,NetPay)
 VALUES('Suresh',50000,'1998-03-14','M',9876543219,'Benglore','Infosys',500,3500,3000,50000);
+---------Recreate Using Er Diagram(UC11)
+---------Creating Company Table
+CREATE TABLE Company(
+	CompanyId INT IDENTITY(1,1) PRIMARY KEY,
+	CompanyName VARCHAR(100)
+	);
 
+---------Creating Deptartment table
+CREATE TABLE Department(
+	DepartmentId INT IDENTITY(1,1) PRIMARY KEY,
+	DepartmentName VARCHAR(50));
+
+---------Creating Employee Table
+CREATE TABLE Employee(
+	EmployeeId INT IDENTITY(1,1) PRIMARY KEY,
+	CompanyId INT FOREIGN KEY REFERENCES Company(CompanyId),
+	EmployeeName VARCHAR(30),
+	PhoneNumber BIGINT,
+	EmployeeAddress VARCHAR(50),
+	StartDate date,
+	Gender CHAR(1)
+);
+
+---------Creating Payroll Table
+CREATE TABLE Payroll(
+	EmployeeId INT FOREIGN KEY REFERENCES Employee(EmployeeId),
+	BasicPay FLOAT,
+	TaxablePay FLOAT,
+	IncomeTax FLOAT,
+	NetPay FLOAT,
+	Deductions FLOAT
+);
+
+---------Creating Employee Department Table
+create table EmployeeDepartment(
+	EmployeeId int FOREIGN KEY REFERENCES Employee(EmployeeId),
+	DepartmentId int FOREIGN KEY REFERENCES Department(DepartmentId),
+);
+
+---------Inserting Value Into Company Table
+INSERT INTO Company VALUES('TCS'),('Capgemini'),('WIPRO');
+SELECT * FROM Company;
+
+---------Inserting Value Into Department Table
+INSERT INTO Department VALUES('HR'),('IT Developer'),('QA'),('Testing'),('Finance'),('Account'),('Marketing');
+SELECT * FROM Department;
+
+---------Inserting Value Into Employee Table
+INSERT INTO Employee VALUES(1,'Shweta',9820456123,'Mumbai','2022-02-27','F');
+INSERT INTO Employee VALUES(2,'Snehal',9874185296,'Pune',' ','F');
+INSERT INTO Employee VALUES(3,'Bill',9745612587,'Mumbai','2022-02-27','M'),
+						(1,'Bill',9587463214,'Gujarat','2020-01-01',' '),
+						(2,'Shweta',9845687321,'Chennai','2022-02-27','F'),
+						(3,'Suresh',9685475645,'Karnataka','1998-03-14','M');
+						
+SELECT * FROM Employee;
+----------Insert values into payroll table-----------
+INSERT INTO Payroll(EmployeeId ,BasicPay, TaxablePay ,IncomeTax ,NetPay ,Deductions )
+VALUES(1,25000,4999.99 ,24 ,25000 , 1000),
+		(3,25000,4999.99 ,1599.76 ,25000 , 1000),
+		(6,35000,3999.99 ,1599.76 ,25000 ,500),
+		(7,50000,4999.99 ,1599.76 ,25000 , 1500),
+		(8,5000,4999.99 ,1599.76 ,25000 , 500),
+		(9,25000,2999.99 , , ,500),
+		(10,50000 , 3500,3000 ,50000 ,500);
+
+
+	
