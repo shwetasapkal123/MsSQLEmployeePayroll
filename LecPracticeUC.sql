@@ -122,8 +122,56 @@ VALUES(1,25000,4999.99 ,24 ,25000 , 1000),
 		(6,35000,3999.99 ,1599.76 ,25000 ,500),
 		(7,50000,4999.99 ,1599.76 ,25000 , 1500),
 		(8,5000,4999.99 ,1599.76 ,25000 , 500),
-		(9,25000,2999.99 , , ,500),
+		(9,25000,2999.99 ,2456.56 ,35000 ,500),
 		(10,50000 , 3500,3000 ,50000 ,500);
 
+select *from  Payroll;
 
-	
+-----------Insert values into Employee department----
+INSERT INTO EmployeeDepartment(EmployeeId,DepartmentId)
+VALUES(1,1 ),
+	  (3,2 )	,
+	  (6, 3),
+	  (7,4 ),
+	  (8,5 ),
+	  (9, 6),
+	  (10,7 );
+select *from EmployeeDepartment;
+
+------------UC12-Remove and retrieve from payroll---------
+DELETE From Payroll WHERE EmployeeId=3;
+select *from Payroll;
+	--------------Retrieve using Name(UC5)------------------
+SELECT comp.CompanyID,comp.CompanyName,emp.EmployeeId,emp.EmployeeName,emp.PhoneNumber,emp.StartDate,emp.Gender
+FROM Company AS comp 
+INNER JOIN Employee AS emp 
+ON comp.CompanyId = emp.CompanyId AND emp.StartDate BETWEEN ('2020-01-01') AND getdate();
+
+---------Aggregate Function Sum-----------------------
+SELECT SUM(pay.BasicPay) as TotalEmpSalary,emp.Gender
+FROM Employee AS emp 
+INNER JOIN Payroll as pay ON emp.EmployeeId = pay.EmployeeId GROUP BY Gender ORDER BY Gender DESC;
+
+-----------Max Function ------------------------------
+SELECT MAX(pay.BasicPay) as MaxEmpSalary,emp.Gender 
+FROM Employee AS emp 
+INNER JOIN Payroll as pay ON emp.EmployeeId = pay.EmployeeId GROUP BY Gender;
+-------------Min Function-----------------------------
+SELECT MIN(pay.BasicPay) as MinEmpSalary,emp.Gender 
+FROM Employee AS emp 
+INNER JOIN Payroll as pay ON emp.EmployeeId = pay.EmployeeId GROUP BY Gender ORDER BY Gender DESC;
+------------Avg Salary--------------------------
+SELECT CAST(AVG(pay.BasicPay) as decimal(10,2)) as AverageEmpSalary,emp.Gender
+FROM Employee AS emp 
+INNER JOIN Payroll as pay ON emp.EmployeeId = pay.EmployeeId GROUP BY Gender;
+
+--------------Count Employee----------------
+SELECT COUNT(EmployeeName) as NumOfEmployee,Gender FROM Employee GROUP BY Gender ORDER BY Gender DESC;
+---------Retrieving All Records(UC4)
+SELECT comp.CompanyID,comp.CompanyName,emp.EmployeeId,emp.EmployeeName,emp.PhoneNumber,emp.StartDate,emp.Gender,emp.EmployeeAddress,
+pay.BasicPay,pay.TaxablePay,pay.IncomeTax,pay.NetPay,pay.Deductions,dep.DepartmentId,dep.DepartmentName
+FROM Company AS comp
+INNER JOIN Employee AS emp ON comp.CompanyId=emp.CompanyId
+INNER JOIN Payroll AS pay ON pay.EmployeeId = emp.EmployeeId	
+INNER JOIN EmployeeDepartment as empDep ON empDep.EmployeeId = emp.EmployeeId
+INNER JOIN Department as dep ON dep.DepartmentId = empDep.DepartmentId;
