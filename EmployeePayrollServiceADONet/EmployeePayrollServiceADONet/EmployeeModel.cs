@@ -10,15 +10,15 @@ namespace EmployeePayrollServiceADONet
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int BasicPay { get; set; }
-        public int Start_Date { get; set; }
+        public double BasicPay { get; set; }
+        public DateTime Start_Date { get; set; }
         public char Gender { get; set; }
-        public int Phone { get; set; }
+        public long Phone { get; set; }
         public string Address { get; set; }
         public string Department { get; set; }
-        public float Deductions { get; set; }
-        public float Taxable { get; set; }
-        public float IncomeTax { get; set; }
-        public float NetPay { get; set; }
+        public double Deductions { get; set; }
+        public double Taxable { get; set; }
+        public double IncomeTax { get; set; }
+        public double NetPay { get; set; }
     }
 }
